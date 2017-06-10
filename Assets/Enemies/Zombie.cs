@@ -60,14 +60,14 @@ using UnityStandardAssets.Characters.ThirdPerson;
 
     private void Die()
     {
-        Vector3 splatPos = new Vector3(transform.position.x, transform.position.y + transform.lossyScale.y, transform.position.z);
+        Vector3 splatPos = new Vector3(transform.position.x, transform.position.y + transform.lossyScale.y, transform.position.z); // lossyScale.y moves the splat spawn point up
         GameObject splat = Instantiate(deathSplat, splatPos, Quaternion.identity);
         Destroy(splat, 2f);
 
         Destroy(gameObject);
     }
 
-    public void DealDamage()
+    public void DealDamage() // called as the zombie hits you
     {
         if (distanceToPlayer <= attackRange)
         {
@@ -79,7 +79,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
         }
 
     }
-    public void DealBigDamage()
+    public void DealBigDamage() // called right at the end so getting hit too many times by the same zombie is dangerous
     {
         if (distanceToPlayer <= attackRange)
         {

@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour {
     public float bulletDamage;
     public GameObject bloodsplat;
 
+    //TODO Implement damage reduction over time
+
 	// Use this for initialization
 	void Start () {
         
@@ -26,7 +28,8 @@ public class Bullet : MonoBehaviour {
 
             foreach (ContactPoint contact in col.contacts)
             {
-                Instantiate(bloodsplat, contact.point, Quaternion.identity);
+                GameObject splat = Instantiate(bloodsplat, contact.point, Quaternion.identity) as GameObject;
+                Destroy(splat, 1f);
             }
 
             zombie.TakeDamage(bulletDamage);
