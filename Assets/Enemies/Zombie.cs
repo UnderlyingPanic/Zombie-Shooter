@@ -7,6 +7,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
     public class Zombie : MonoBehaviour
     {
 
+    public GameObject deathSplat;
     public float maxHP;
     public float damage;
     public float bigDamageMultiplier;
@@ -19,6 +20,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
     private ThirdPersonCharacter character;
     private AICharacterControl AIControl;
     private Scorekeeper scorekeeper;
+    
 
        
 
@@ -51,11 +53,20 @@ using UnityStandardAssets.Characters.ThirdPerson;
 
         if (currentHP < 0)
         {
-            //TODO death animation / bloodsplat or something
-            Destroy(gameObject);
+            Die();
         }
 
     }
+
+    private void Die()
+    {
+        Vector3 splatPos = new Vector3(transform.position.x, transform.position.y + transform.lossyScale.y, transform.position.z);
+        GameObject splat = Instantiate(deathSplat, splatPos, Quaternion.identity);
+        Destroy(splat, 2f);
+
+        Destroy(gameObject);
+    }
+
     public void DealDamage()
     {
         if (distanceToPlayer <= attackRange)
