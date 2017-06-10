@@ -18,6 +18,8 @@ public class Bloodsplat : MonoBehaviour {
 
     public void SpawnBloodsplat ()
     {
-        Instantiate(bloodsplat, transform.position, Quaternion.identity);
+        GameObject splat = Instantiate(bloodsplat, transform.position, Quaternion.identity) as GameObject;
+
+        Destroy(splat.gameObject, 2.0f);
     }
 }

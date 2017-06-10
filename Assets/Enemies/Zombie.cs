@@ -1,73 +1,88 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace UnityStandardAssets.Characters.ThirdPerson {
+using UnityStandardAssets.Characters.ThirdPerson;
 
     [RequireComponent(typeof(ThirdPersonCharacter))]
     public class Zombie : MonoBehaviour
     {
 
-        private Animator animator;
-        private Player player;
-        private float distanceToPlayer;
-        private ThirdPersonCharacter character;
-        private AICharacterControl AIControl;
-        private Scorekeeper scorekeeper;
+    public float maxHP;
+    public float damage;
+    public float bigDamageMultiplier;
+    public float attackRange = 0f;
 
-        public float damage;
-        public float bigDamageMultiplier;
-        public float attackRange = 0f;
+    private float currentHP;
+    private Animator animator;
+    private Player player;
+    private float distanceToPlayer;
+    private ThirdPersonCharacter character;
+    private AICharacterControl AIControl;
+    private Scorekeeper scorekeeper;
+
+       
 
 
-        // Use this for initialization
-        void Start()
+    // Use this for initialization
+    void Start()
+    {
+        currentHP = maxHP;
+        animator = GetComponent<Animator>();
+        character = GetComponent<ThirdPersonCharacter>();
+        AIControl = GetComponent<AICharacterControl>();
+        player = GameObject.FindObjectOfType<Player>();
+        scorekeeper = FindObjectOfType<Scorekeeper>();
+            
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        distanceToPlayer = Vector3.Distance(this.transform.position, player.transform.position);
+
+        if (distanceToPlayer <= attackRange)
         {
-            animator = GetComponent<Animator>();
-            character = GetComponent<ThirdPersonCharacter>();
-            AIControl = GetComponent<AICharacterControl>();
-            player = GameObject.FindObjectOfType<Player>();
-            scorekeeper = FindObjectOfType<Scorekeeper>();
-            print(player);
+            if (AIControl.attacking == false)
+            {
+                animator.SetTrigger("Trigger Attack");
+            }
         }
 
-        // Update is called once per frame
-        void Update()
+        if (currentHP < 0)
         {
-
-            distanceToPlayer = Vector3.Distance(this.transform.position, player.transform.position);
-
-            if (distanceToPlayer <= attackRange)
-            {
-                if (AIControl.attacking == false)
-                {
-                    animator.SetTrigger("Trigger Attack");
-                }
-            }
-
+            //TODO death animation / bloodsplat or something
+            Destroy(gameObject);
         }
-        public void DealDamage()
+
+    }
+    public void DealDamage()
+    {
+        if (distanceToPlayer <= attackRange)
         {
-            if (distanceToPlayer <= attackRange)
-            {
-                player.TakeDamage(damage);
-            }
-            else
-            {
-                scorekeeper.timesDodged++;
-            }
-
+            player.TakeDamage(damage);
         }
-        public void DealBigDamage()
+        else
         {
-            if (distanceToPlayer <= attackRange)
-            {
-                player.TakeDamage(damage * bigDamageMultiplier);
-            }
-            else
-            {
-                scorekeeper.timesDodged++;
-            }
-
+            scorekeeper.timesDodged++;
         }
+
+    }
+    public void DealBigDamage()
+    {
+        if (distanceToPlayer <= attackRange)
+        {
+            player.TakeDamage(damage * bigDamageMultiplier);
+        }
+        else
+        {
+            scorekeeper.timesDodged++;
+        }
+
+    }
+
+    public void TakeDamage (float damage)
+    {
+        currentHP -= damage;
     }
 }
