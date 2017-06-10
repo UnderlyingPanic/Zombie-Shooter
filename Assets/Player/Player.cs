@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -12,19 +13,26 @@ public class Player : MonoBehaviour {
     }
     private Bloodsplat bloodSplat;
     private Animator gunAnimator;
+    private float secondsPerBullet;
 
     public float fireRate; // Shots per Second
     public float bulletSpread;
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
     public float bulletSpeed = 6f;
+    public GameObject gameCanvas;
+    public GameObject deadText;
+    public bool isDead;
 
-    private float secondsPerBullet;
+    
+    
    
     // Use this for initialization
     void Start () {
         bloodSplat = GetComponentInChildren<Bloodsplat>();
         gunAnimator = GetComponentInChildren<Animator>();
+        isDead = false;
+        Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame
@@ -39,6 +47,19 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonUp(0))
         {
             CancelInvoke();
+        }
+
+        if (currentHealthPoints < 0)
+        {
+            PlayDead();
+        }
+
+        if (isDead)
+        {
+            if (Input.GetKeyDown("space"))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
 	}
 
@@ -72,5 +93,13 @@ public class Player : MonoBehaviour {
 
 
         throw new UnityException("RandomiseBulletSpread didn't manage to return a vector");
+    }
+
+    public void PlayDead()
+    {
+        isDead = true;
+        currentHealthPoints = 0;
+        Time.timeScale = 0;
+        deadText.SetActive(true);
     }
 }

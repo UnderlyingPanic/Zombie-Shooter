@@ -34,6 +34,8 @@ using UnityStandardAssets.Characters.ThirdPerson;
         AIControl = GetComponent<AICharacterControl>();
         player = GameObject.FindObjectOfType<Player>();
         scorekeeper = FindObjectOfType<Scorekeeper>();
+
+        scorekeeper.zombiesInPlay++;
             
     }
 
@@ -60,6 +62,8 @@ using UnityStandardAssets.Characters.ThirdPerson;
 
     private void Die()
     {
+        scorekeeper.zombiesKilled++;
+        scorekeeper.zombiesInPlay--;
         Vector3 splatPos = new Vector3(transform.position.x, transform.position.y + transform.lossyScale.y, transform.position.z); // lossyScale.y moves the splat spawn point up
         GameObject splat = Instantiate(deathSplat, splatPos, Quaternion.identity);
         Destroy(splat, 2f);
