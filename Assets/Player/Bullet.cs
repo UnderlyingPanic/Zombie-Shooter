@@ -5,14 +5,15 @@ using UnityStandardAssets.Characters.ThirdPerson;
 
 public class Bullet : MonoBehaviour {
 
-    public float bulletDamage;
+    private float bulletDamage;
     public GameObject bloodsplat;
+    
 
     //TODO Implement damage reduction over time
 
 	// Use this for initialization
 	void Start () {
-        
+        bulletDamage = FindObjectOfType<StatModifier>().bulletDamage;
 	}
 	
 	// Update is called once per frame

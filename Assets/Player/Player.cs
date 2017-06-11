@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
-    private float maxHealthPoints =100f;
-    private float currentHealthPoints= 100f;
+    public float maxHealthPoints =100f;
+    [HideInInspector]
+    public float currentHealthPoints= 100f;
     public float healthAsPercentage
     {
         get { return currentHealthPoints / (float)maxHealthPoints; }

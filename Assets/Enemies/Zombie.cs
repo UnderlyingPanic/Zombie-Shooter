@@ -19,7 +19,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
     private float distanceToPlayer;
     private AICharacterControl AIControl;
     private Scorekeeper scorekeeper;
-    private float speed;
+    private GameManager gameManager;
     
 
     // Use this for initialization
@@ -30,7 +30,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
         AIControl = GetComponent<AICharacterControl>();
         player = GameObject.FindObjectOfType<Player>();
         scorekeeper = FindObjectOfType<Scorekeeper>();
-
+        gameManager = FindObjectOfType<GameManager>();
           
     }
 
@@ -61,6 +61,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
         Vector3 splatPos = new Vector3(transform.position.x, transform.position.y + transform.lossyScale.y, transform.position.z); // lossyScale.y moves the splat spawn point up
         GameObject splat = Instantiate(deathSplat, splatPos, Quaternion.identity);
         Destroy(splat, 2f);
+        gameManager.ZombieKilled();
 
         Destroy(gameObject);
     }
