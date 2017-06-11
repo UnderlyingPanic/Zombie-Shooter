@@ -9,7 +9,6 @@ public class Scorekeeper : MonoBehaviour {
     public int zombiesKilled =0;
     public Text dodge;
     public Text youKilledXZombies;
-    public int zombiesInPlay=0;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +17,7 @@ public class Scorekeeper : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        dodge.text = timesDodged.ToString();
+        dodge.text = zombiesKilled.ToString();
         youKilledXZombies.text = "You Killed " + zombiesKilled.ToString() + " Zombies.";
 	}
 }

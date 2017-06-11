@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 
-    [RequireComponent(typeof(ThirdPersonCharacter))]
+[RequireComponent(typeof(ThirdPersonCharacter))]
     public class Zombie : MonoBehaviour
     {
 
@@ -17,26 +17,21 @@ using UnityStandardAssets.Characters.ThirdPerson;
     private Animator animator;
     private Player player;
     private float distanceToPlayer;
-    private ThirdPersonCharacter character;
     private AICharacterControl AIControl;
     private Scorekeeper scorekeeper;
+    private float speed;
     
-
-       
-
 
     // Use this for initialization
     void Start()
     {
         currentHP = maxHP;
         animator = GetComponent<Animator>();
-        character = GetComponent<ThirdPersonCharacter>();
         AIControl = GetComponent<AICharacterControl>();
         player = GameObject.FindObjectOfType<Player>();
         scorekeeper = FindObjectOfType<Scorekeeper>();
 
-        scorekeeper.zombiesInPlay++;
-            
+          
     }
 
     // Update is called once per frame
@@ -63,7 +58,6 @@ using UnityStandardAssets.Characters.ThirdPerson;
     private void Die()
     {
         scorekeeper.zombiesKilled++;
-        scorekeeper.zombiesInPlay--;
         Vector3 splatPos = new Vector3(transform.position.x, transform.position.y + transform.lossyScale.y, transform.position.z); // lossyScale.y moves the splat spawn point up
         GameObject splat = Instantiate(deathSplat, splatPos, Quaternion.identity);
         Destroy(splat, 2f);
@@ -100,4 +94,5 @@ using UnityStandardAssets.Characters.ThirdPerson;
     {
         currentHP -= damage;
     }
+
 }

@@ -10,12 +10,12 @@ public class Spawner : MonoBehaviour {
     public float nextSpawnTime;
 
     public GameObject[] Zombies;
-    private Scorekeeper scoreKeeper;
+    private GameManager gameManager;
 
     // Use this for initialization
 	void Start () {
         nextSpawnTime = Time.time + RandomiseSpawnTime();
-        scoreKeeper = FindObjectOfType<Scorekeeper>();
+        gameManager = FindObjectOfType<GameManager>();
 	}
 	
 	// Update is called once per frame
@@ -23,9 +23,8 @@ public class Spawner : MonoBehaviour {
 		if (Time.time >= nextSpawnTime)
         {
             nextSpawnTime = Time.time + RandomiseSpawnTime();
-            if (scoreKeeper.zombiesInPlay < maxZombies)
+            if (gameManager.CountZombies() < maxZombies)
             {
-                Debug.Log("Spawning zombie");
                 SpawnZombie();
             } else
             {
@@ -39,7 +38,8 @@ public class Spawner : MonoBehaviour {
     {
         int i = Random.Range(0, Zombies.Length);
         GameObject zombie = Zombies[i];
-        GameObject newZombie = Instantiate(zombie, transform.position, Quaternion.identity);
+        // GameObject newZombie = Instantiate(zombie, transform.position, Quaternion.identity) as GameObject; //Commented out for now, as no need to catch new zombie as variable yet
+        Instantiate(zombie, transform.position, Quaternion.identity);
     }
 
     public float RandomiseSpawnTime ()

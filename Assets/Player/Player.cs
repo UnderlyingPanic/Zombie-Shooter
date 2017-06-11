@@ -90,9 +90,6 @@ public class Player : MonoBehaviour {
         float ZVector = Random.Range(-maxSpread, maxSpread);
 
         return new Vector3(xVector, yVector, ZVector);
-
-
-        throw new UnityException("RandomiseBulletSpread didn't manage to return a vector");
     }
 
     public void PlayDead()
