@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour {
                 SpawnZombie();
             } else
             {
-                Debug.Log("Cannot spawn anymore zombies.");
+                // DO NOTHING.
             }
             
         }

@@ -7,9 +7,8 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class StatModifier : MonoBehaviour {
 
     public Text upgradeText;
-    public float bulletDamage = 5;
 
-    private GameManager gameManager; //Zombie Speed is changed here
+    private GameManager gameManager; //Zombie Speed is changed here, as well as upgrade frequency.
     private Player player;
     private FirstPersonController playerController;
 
@@ -43,10 +42,19 @@ public class StatModifier : MonoBehaviour {
 
     public void ModifyRandomStat ()
     {
+        //TODO - Make "luck", i,e increase/decrease the random.range for "reroll"
+        //Basic process: Roll a random integer between 1 and the number of potential functions/upgrades.
+        //               Roll a "Reroll" integer, which allows the negative ones to be rerolled
+        //               Match the Integer rolled to the appropriate case. If it is a negative change, we check to see if a "reroll" is allowed.
+        //               If the reroll is triggered, the whole code rerolls, INCLUDING the reroll integer.
+
+        //               In theory, the "int reroll" random.range can be widened/shortened to change the odds of landing a reroll. 
+
         int statNumber = Random.Range(1, 13); // THIS WILL NEED TO BE AMMENDED TO REFLECT LIST
         int reroll = Random.Range (0,3);
         print("We've rolled " + reroll);
 
+        
         switch (statNumber)
         {
             case 1:
@@ -58,7 +66,7 @@ public class StatModifier : MonoBehaviour {
                 break;
             case 2:
 
-                if (reroll == 1)
+                if (reroll == 0)
                 {
                     ModifyRandomStat();
                     break;
@@ -73,12 +81,12 @@ public class StatModifier : MonoBehaviour {
                 }
             case 3:
                 amount = Random.Range(0, 2);
-                bulletDamage += amount;
+                player.bulletDamage += amount;
                 upgradeText.text = "Your Damage has Increased.";
                 break;
             case 4:
 
-                if (reroll == 1)
+                if (reroll == 0)
                 {
                     ModifyRandomStat();
                     break;
@@ -86,7 +94,7 @@ public class StatModifier : MonoBehaviour {
                 else
                 {
                     amount = Random.Range(0, 1);
-                    bulletDamage -= amount;
+                    player.bulletDamage -= amount;
                     upgradeText.text = "Your Damage has Decreased.";
                     break;
                 }
@@ -97,7 +105,7 @@ public class StatModifier : MonoBehaviour {
                 upgradeText.text = "Your jump height has increased.";
                 break;
             case 6:
-                if (reroll == 1)
+                if (reroll == 0)
                 {
                     ModifyRandomStat();
                     break;
@@ -116,7 +124,7 @@ public class StatModifier : MonoBehaviour {
                 upgradeText.text = "Your Fire Rate has Increased.";
                 break;
             case 8:
-                if (reroll == 1)
+                if (reroll == 0)
                 {
                     ModifyRandomStat();
                     break;
@@ -129,7 +137,7 @@ public class StatModifier : MonoBehaviour {
                     break;
                 }
             case 9:
-                if (reroll == 1)
+                if (reroll == 0)
                 {
                     ModifyRandomStat();
                     break;
@@ -162,7 +170,7 @@ public class StatModifier : MonoBehaviour {
                 upgradeText.text = "You patch up your wounds, and your max HP increases.";
                 break;
             case 12:
-                if (reroll == 1)
+                if (reroll == 0)
                 {
                     ModifyRandomStat();
                     break;
@@ -178,7 +186,7 @@ public class StatModifier : MonoBehaviour {
                     }
                     else
                     {
-                        Debug.Log("HP is too low, rerolling");
+                        Debug.Log("We rolled the 'maxHP reduction', but HP is too low - rerolling");
                         ModifyRandomStat();
                     }
                 }
@@ -189,8 +197,6 @@ public class StatModifier : MonoBehaviour {
                 player.currentHealthPoints = amount;
                 upgradeText.text = "You recover some Health.";
                 break;
-
-            // Add in all the nice ones again so it's harder to get a bad roll
         }
     }
 }

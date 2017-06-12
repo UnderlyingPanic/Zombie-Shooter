@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        bulletDamage = FindObjectOfType<StatModifier>().bulletDamage;
+        bulletDamage = FindObjectOfType<Player>().bulletDamage;
 	}
 	
 	// Update is called once per frame

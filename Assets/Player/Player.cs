@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Player : MonoBehaviour {
 
-    public float maxHealthPoints =100f;
+    
     [HideInInspector]
     public float currentHealthPoints= 100f;
     public float healthAsPercentage
@@ -15,7 +16,12 @@ public class Player : MonoBehaviour {
     private Bloodsplat bloodSplat;
     private Animator gunAnimator;
     private float secondsPerBullet;
+    private StatManager statManager;
+    private FirstPersonController fpsController;
 
+    public AudioClip gunShotSound;
+    public float maxHealthPoints = 100f;
+    public float bulletDamage;
     public float fireRate; // Shots per Second
     public float bulletSpread;
     public GameObject bulletPrefab;
@@ -30,8 +36,10 @@ public class Player : MonoBehaviour {
    
     // Use this for initialization
     void Start () {
+        statManager = FindObjectOfType<StatManager>();
         bloodSplat = GetComponentInChildren<Bloodsplat>();
         gunAnimator = GetComponentInChildren<Animator>();
+        fpsController = GetComponent<FirstPersonController>();
         isDead = false;
         Time.timeScale = 1;
 	}
@@ -72,6 +80,17 @@ public class Player : MonoBehaviour {
 
     public void Fire()
     {
+        AudioSource audioSource;
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        foreach (AudioSource aud in audioSources)
+        {
+            if (aud.priority == 1)
+            {
+                audioSource = aud;
+                audioSource.clip = gunShotSound;
+                audioSource.Play();
+            }
+        }
 
         Vector3 bulletSpreadVector = RandomiseBulletSpread(bulletSpread); // Calls the Randomise function to return a new vector
 
@@ -99,5 +118,17 @@ public class Player : MonoBehaviour {
         currentHealthPoints = 0;
         Time.timeScale = 0;
         deadText.SetActive(true);
+    }
+
+    public void PassStatsToStatManager ()
+    {
+        statManager.currentHealthPoints = currentHealthPoints;
+        statManager.maxHealthPoints = maxHealthPoints;
+        statManager.bulletDamage = bulletDamage;
+        statManager.fireRate = fireRate;
+        statManager.bulletSpread = bulletSpread;
+        statManager.walkSpeed = fpsController.m_WalkSpeed;
+        statManager.runSpeed = fpsController.m_RunSpeed;
+        statManager.jumpSpeed = fpsController.m_JumpSpeed;
     }
 }
