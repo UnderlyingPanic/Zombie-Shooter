@@ -30,8 +30,8 @@ public class Player : MonoBehaviour {
     public GameObject gameCanvas;
     public GameObject deadText;
     public bool isDead;
-
-    
+    public Transform muzzleFlashSpawn;
+    public GameObject muzzleFlashObject;
     
    
     // Use this for initialization
@@ -101,6 +101,9 @@ public class Player : MonoBehaviour {
         
         bullet.GetComponent<Rigidbody>().velocity = randomisedSpreadVector * bulletSpeed; // Fire Bullet
         Destroy(bullet, 2.0f);
+        var muzzleFlash = Instantiate(muzzleFlashObject, this.muzzleFlashSpawn.position, muzzleFlashSpawn.rotation) as GameObject;
+        muzzleFlash.transform.parent = Camera.main.transform;
+        Destroy(muzzleFlash, 1f);
     }
 
     private Vector3 RandomiseBulletSpread (float maxSpread)
