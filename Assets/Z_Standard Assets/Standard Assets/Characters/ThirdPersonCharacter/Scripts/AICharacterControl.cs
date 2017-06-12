@@ -19,6 +19,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
             character = GetComponent<ThirdPersonCharacter>();
             originalTarget = FindObjectOfType<Player>().transform;
+            m_target = FindObjectOfType<Player>().transform;
 
             agent.updateRotation = false;
             agent.updatePosition = true;
@@ -30,6 +31,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (m_target != null)
                 agent.SetDestination(m_target.position);
+
+            print(Vector3.Distance(m_target.position, FindObjectOfType<Player>().transform.position));
+            
 
             if (attacking)
             {

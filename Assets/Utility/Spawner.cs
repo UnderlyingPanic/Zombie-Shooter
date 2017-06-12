@@ -47,4 +47,9 @@ public class Spawner : MonoBehaviour {
         float randomisedSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
         return randomisedSpawnTime;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position + new Vector3 (0,5,0), new Vector3 (10,10,10));
+    }
 }
