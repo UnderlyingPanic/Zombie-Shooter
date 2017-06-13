@@ -12,7 +12,10 @@ using UnityStandardAssets.Characters.ThirdPerson;
     public float damage;
     public float bigDamageMultiplier;
     public float attackRange = 0f;
+    public AudioClip attackSound;
+    public GameObject deathSound;
 
+    
     private float currentHP;
     private Animator animator;
     private Player player;
@@ -20,17 +23,20 @@ using UnityStandardAssets.Characters.ThirdPerson;
     private AICharacterControl AIControl;
     private Scorekeeper scorekeeper;
     private GameManager gameManager;
+    private AudioSource aud;
     
 
     // Use this for initialization
     void Start()
     {
+        aud = GetComponent<AudioSource>();
         currentHP = maxHP;
         animator = GetComponent<Animator>();
         AIControl = GetComponent<AICharacterControl>();
         player = GameObject.FindObjectOfType<Player>();
         scorekeeper = FindObjectOfType<Scorekeeper>();
         gameManager = FindObjectOfType<GameManager>();
+       
           
     }
 
@@ -60,8 +66,11 @@ using UnityStandardAssets.Characters.ThirdPerson;
         scorekeeper.zombiesKilled++;
         Vector3 splatPos = new Vector3(transform.position.x, transform.position.y + transform.lossyScale.y, transform.position.z); // lossyScale.y moves the splat spawn point up
         GameObject splat = Instantiate(deathSplat, splatPos, Quaternion.identity);
+        GameObject splatsound = Instantiate(deathSound, this.transform.position, Quaternion.identity);
         Destroy(splat, 2f);
+        Destroy(splatsound, 2f);
         gameManager.ZombieKilled();
+
 
         Destroy(gameObject);
     }
@@ -96,4 +105,10 @@ using UnityStandardAssets.Characters.ThirdPerson;
         currentHP -= damage;
     }
 
+    public void PlayAttackSound()
+    {
+
+        aud.clip = attackSound;
+        aud.Play();
+    }
 }

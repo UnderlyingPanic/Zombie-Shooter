@@ -13,6 +13,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Transform m_target;// target to aim for
         public bool attacking;
 
+        private float animSpeedMult;
+
         private void Start()
         {
             // get the components on the object we need ( should not be null due to require component so no need to check )
@@ -23,6 +25,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             agent.updateRotation = false;
             agent.updatePosition = true;
+            animSpeedMult = character.m_AnimSpeedMultiplier;
         }
 
 
@@ -38,9 +41,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             if (attacking)
             {
                 this.m_target = this.transform;
+                character.m_AnimSpeedMultiplier = 1f;
             } else {
          
                 this.m_target = originalTarget;
+                character.m_AnimSpeedMultiplier = animSpeedMult;
             }
 
             if (agent.remainingDistance > agent.stoppingDistance)

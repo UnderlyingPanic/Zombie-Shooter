@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour {
@@ -10,7 +11,8 @@ public class GameManager : MonoBehaviour {
     public int minZombiesNeededForMod=1;
     public int maxZombiesNeededForMod=5;
     public int ZombiesNeededToStopSpawning;
-    
+    public GameObject winTextObject;
+
     private int zombiesNeededForMod;
     private Zombie[] zombies;
     private float upgradeTime;
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour {
     private bool spawningZombies;
     private Scorekeeper scoreKeeper;
     private StatModifier statMod;
+    private bool endGame=false;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +37,14 @@ public class GameManager : MonoBehaviour {
 		if (Time.time >= upgradeTime+4 && upgradeTextGameObject.activeSelf) // THE NUMBER HERE TELLS US HOW LONG TO LEAVE THE MESSAGE UP
         {
             upgradeTextGameObject.SetActive(false);
+        }
+
+        if (endGame == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+            }
         }
 	}
 
@@ -84,7 +95,8 @@ public class GameManager : MonoBehaviour {
         print(zombiesLeft);
         if (zombiesLeft <= 0 && spawningZombies == false)
         {
-            Debug.Log("YOU WIN");
+            winTextObject.SetActive(true);
+            endGame = true;
         }
     }
 
