@@ -32,14 +32,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             if (m_target != null)
                 agent.SetDestination(m_target.position);
 
-            print(Vector3.Distance(m_target.position, FindObjectOfType<Player>().transform.position));
+            
             
 
             if (attacking)
             {
                 this.m_target = this.transform;
-            } else
-            {
+            } else {
+         
                 this.m_target = originalTarget;
             }
 
