@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     public int minZombiesNeededForMod=1;
     public int maxZombiesNeededForMod=5;
     public int ZombiesNeededToStopSpawning;
-    public GameObject winTextObject;
+    public GameObject doors;
 
     private int zombiesNeededForMod;
     private Zombie[] zombies;
@@ -37,14 +37,6 @@ public class GameManager : MonoBehaviour {
 		if (Time.time >= upgradeTime+4 && upgradeTextGameObject.activeSelf) // THE NUMBER HERE TELLS US HOW LONG TO LEAVE THE MESSAGE UP
         {
             upgradeTextGameObject.SetActive(false);
-        }
-
-        if (endGame == true)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
-            }
         }
 	}
 
@@ -95,8 +87,9 @@ public class GameManager : MonoBehaviour {
         print(zombiesLeft);
         if (zombiesLeft <= 0 && spawningZombies == false)
         {
-            winTextObject.SetActive(true);
+            doors.SetActive(true);
             endGame = true;
+            TellPlayerGameHasEnded();
         }
     }
 
@@ -105,5 +98,12 @@ public class GameManager : MonoBehaviour {
         upgradeTextGameObject.SetActive(true);
         upgradeTime = Time.time;
         statMod.ModifyRandomStat();
+    }
+
+    public void TellPlayerGameHasEnded()
+    {
+        print("GameManager: Telling player that the game has ended!");
+        Player player = FindObjectOfType<Player>();
+        player.endGame = true;
     }
 }

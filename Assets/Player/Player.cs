@@ -19,6 +19,7 @@ public class Player : MonoBehaviour {
     private StatManager statManager;
     private FirstPersonController fpsController;
 
+    public GameObject doorText;
     public AudioClip gunShotSound;
     public float maxHealthPoints = 100f;
     public float bulletDamage;
@@ -32,8 +33,9 @@ public class Player : MonoBehaviour {
     public bool isDead;
     public Transform muzzleFlashSpawn;
     public GameObject muzzleFlashObject;
-    
-   
+    [HideInInspector]public bool endGame = false;
+
+
     // Use this for initialization
     void Start () {
         statManager = FindObjectOfType<StatManager>();
@@ -46,7 +48,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        print(endGame);
         secondsPerBullet = 1 / fireRate;
 
         if (Input.GetMouseButtonDown(0))
@@ -134,4 +136,32 @@ public class Player : MonoBehaviour {
         statManager.runSpeed = fpsController.m_RunSpeed;
         statManager.jumpSpeed = fpsController.m_JumpSpeed;
     }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (endGame)
+        {
+            Door door = collision.gameObject.GetComponent<Door>();
+            if (door)
+            {
+                print("Touching door");
+                doorText.SetActive(true);
+                door.DisplayText();
+
+                if (Input.GetKey(KeyCode.E))
+                {
+                    door.OpenDoor();
+                }
+            } else
+            {
+                print("Not touching door");
+                doorText.SetActive(false);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        doorText.SetActive(false);
+    } 
 }
