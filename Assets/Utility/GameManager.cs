@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public int maxZombiesNeededForMod=5;
     public int ZombiesNeededToStopSpawning;
     public GameObject doors;
+    public GameObject arrow;
 
     private int zombiesNeededForMod;
     private Zombie[] zombies;
@@ -89,6 +90,7 @@ public class GameManager : MonoBehaviour {
         {
             doors.SetActive(true);
             endGame = true;
+            arrow.SetActive(true);
             TellPlayerGameHasEnded();
         }
     }
