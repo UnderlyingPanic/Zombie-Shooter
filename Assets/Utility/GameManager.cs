@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
     private bool spawningZombies;
     private Scorekeeper scoreKeeper;
     private StatModifier statMod;
-    private bool endGame=false;
+    private bool endGame = false;
 
 	// Use this for initialization
 	void Start () {
@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour {
 		if (Time.time >= upgradeTime+4 && upgradeTextGameObject.activeSelf) // THE NUMBER HERE TELLS US HOW LONG TO LEAVE THE MESSAGE UP
         {
             upgradeTextGameObject.SetActive(false);
+        } else
+        {
+
         }
 	}
 
@@ -92,6 +95,7 @@ public class GameManager : MonoBehaviour {
             endGame = true;
             arrow.SetActive(true);
             TellPlayerGameHasEnded();
+            FindObjectOfType<Player>().PassStatsToStatManager();
         }
     }
 

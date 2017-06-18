@@ -6,23 +6,23 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class StatManager : MonoBehaviour {
 
     //Player
-    [HideInInspector]
+    
     public float maxHealthPoints;
-    [HideInInspector]
+    
     public float currentHealthPoints;
-    [HideInInspector]
+   
     public float bulletDamage;
-    [HideInInspector]
+   
     public float fireRate;
-    [HideInInspector]
+  
     public float bulletSpread;
 
     //FPS Controller
-    [HideInInspector]
+  
     public float walkSpeed;
-    [HideInInspector]
+ 
     public float runSpeed;
-    [HideInInspector]
+   
     public float jumpSpeed;
 
     private Player player;
@@ -31,6 +31,7 @@ public class StatManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        DontDestroyOnLoad(transform.gameObject);
         player = FindObjectOfType<Player>();
         fpsController = FindObjectOfType<FirstPersonController>();
 	}

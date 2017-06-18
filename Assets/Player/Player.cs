@@ -18,7 +18,10 @@ public class Player : MonoBehaviour {
     private float secondsPerBullet;
     private StatManager statManager;
     private FirstPersonController fpsController;
+    private bool touchingDoor;
+    private Door door;
 
+    public bool getStatsFromManagerThisLevel;
     public GameObject doorText;
     public AudioClip gunShotSound;
     public float maxHealthPoints = 100f;
@@ -42,13 +45,19 @@ public class Player : MonoBehaviour {
         bloodSplat = GetComponentInChildren<Bloodsplat>();
         gunAnimator = GetComponentInChildren<Animator>();
         fpsController = GetComponent<FirstPersonController>();
+
         isDead = false;
         Time.timeScale = 1;
-	}
+
+        if (getStatsFromManagerThisLevel)
+        {
+            statManager.KickOutStats();
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        print(endGame);
+
         secondsPerBullet = 1 / fireRate;
 
         if (Input.GetMouseButtonDown(0))
@@ -72,7 +81,13 @@ public class Player : MonoBehaviour {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
-	}
+
+        if (Input.GetKeyDown(KeyCode.E) && touchingDoor)
+        {
+            print("Player sent Door Instruction to Open");
+            door.OpenDoor();
+        }
+    }
 
     public void TakeDamage(float damage)
     {
@@ -141,17 +156,15 @@ public class Player : MonoBehaviour {
     {
         if (endGame)
         {
-            Door door = collision.gameObject.GetComponent<Door>();
+            door = collision.gameObject.GetComponent<Door>();
             if (door)
             {
                 print("Touching door");
                 doorText.SetActive(true);
                 door.DisplayText();
+                touchingDoor = true;
 
-                if (Input.GetKey(KeyCode.E))
-                {
-                    door.OpenDoor();
-                }
+               
             } else
             {
                 print("Not touching door");
@@ -162,6 +175,8 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
+        door = null;
+        touchingDoor = false;
         doorText.SetActive(false);
     } 
 }

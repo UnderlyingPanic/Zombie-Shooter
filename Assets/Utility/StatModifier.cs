@@ -80,7 +80,7 @@ public class StatModifier : MonoBehaviour {
                     break;
                 }
             case 3:
-                amount = Random.Range(0, 2);
+                amount = Random.Range(0.1f, 2f);
                 player.bulletDamage += amount;
                 upgradeText.text = "Your Damage has Increased.";
                 break;
@@ -93,7 +93,7 @@ public class StatModifier : MonoBehaviour {
                 }
                 else
                 {
-                    amount = Random.Range(0, 1);
+                    amount = Random.Range(0.1f, 1f);
                     player.bulletDamage -= amount;
                     upgradeText.text = "Your Damage has Decreased.";
                     break;
