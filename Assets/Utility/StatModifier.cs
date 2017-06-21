@@ -8,7 +8,7 @@ public class StatModifier : MonoBehaviour {
 
     public Text upgradeText;
 
-    private GameManager gameManager; //Zombie Speed is changed here, as well as upgrade frequency.
+   // private GameManager gameManager; //Zombie Speed is changed here, as well as upgrade frequency.
     private Player player;
     private FirstPersonController playerController;
 
@@ -30,7 +30,7 @@ public class StatModifier : MonoBehaviour {
     
     // Use this for initialization
 	void Start () {
-        gameManager = GetComponent<GameManager>();
+       // gameManager = GetComponent<GameManager>();
         player = FindObjectOfType<Player>();
         playerController = FindObjectOfType<FirstPersonController>();
     }

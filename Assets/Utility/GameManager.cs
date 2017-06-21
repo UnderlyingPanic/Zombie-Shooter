@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour {
     public int minZombiesNeededForMod=1;
     public int maxZombiesNeededForMod=5;
     public int ZombiesNeededToStopSpawning;
+    public int maxZombiesAllowed;
+    public int minZombieSpawnTime;
+    public int maxZombieSpawnTime;
     public GameObject doors;
     public GameObject arrow;
 
@@ -21,7 +24,7 @@ public class GameManager : MonoBehaviour {
     private bool spawningZombies;
     private Scorekeeper scoreKeeper;
     private StatModifier statMod;
-    private bool endGame = false;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -29,8 +32,7 @@ public class GameManager : MonoBehaviour {
         zombies = FindObjectsOfType<Zombie>();
         zombiesNeededForMod = Random.Range(minZombiesNeededForMod, maxZombiesNeededForMod);
         statMod = FindObjectOfType<StatModifier>();
-        spawningZombies = true;
-       
+        spawningZombies = true;       
     }
 	
 	// Update is called once per frame
@@ -92,7 +94,6 @@ public class GameManager : MonoBehaviour {
         if (zombiesLeft <= 0 && spawningZombies == false)
         {
             doors.SetActive(true);
-            endGame = true;
             arrow.SetActive(true);
             TellPlayerGameHasEnded();
             FindObjectOfType<Player>().PassStatsToStatManager();

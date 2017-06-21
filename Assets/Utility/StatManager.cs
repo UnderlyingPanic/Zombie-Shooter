@@ -5,8 +5,11 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class StatManager : MonoBehaviour {
 
+    private Player player;
+    private FirstPersonController fpsController;
+
     //Player
-    
+
     public float maxHealthPoints;
     
     public float currentHealthPoints;
@@ -24,9 +27,6 @@ public class StatManager : MonoBehaviour {
     public float runSpeed;
    
     public float jumpSpeed;
-
-    private Player player;
-    private FirstPersonController fpsController;
 
 
     // Use this for initialization

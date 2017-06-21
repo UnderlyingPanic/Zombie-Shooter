@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour {
 
-    public float minSpawnTime=0f;
-    public float maxSpawnTime=10f;
-    public int maxZombies;
+    private float minSpawnTime;
+    private float maxSpawnTime;
+    private int maxZombies;
     public float nextSpawnTime;
 
     public GameObject[] Zombies;
@@ -14,8 +14,12 @@ public class Spawner : MonoBehaviour {
 
     // Use this for initialization
 	void Start () {
+        
         nextSpawnTime = Time.time + RandomiseSpawnTime();
         gameManager = FindObjectOfType<GameManager>();
+        maxZombies = gameManager.maxZombiesAllowed;
+        minSpawnTime = gameManager.minZombieSpawnTime;
+        maxSpawnTime = gameManager.maxZombieSpawnTime;
 	}
 	
 	// Update is called once per frame

@@ -51,7 +51,7 @@ public class Player : MonoBehaviour {
 
         if (getStatsFromManagerThisLevel)
         {
-            statManager.KickOutStats();
+            try { statManager.KickOutStats(); } catch (System.Exception e) { Debug.LogWarning("Error while getting stats: " + e); }
         }
     }
 	
@@ -142,14 +142,21 @@ public class Player : MonoBehaviour {
 
     public void PassStatsToStatManager ()
     {
-        statManager.currentHealthPoints = currentHealthPoints;
-        statManager.maxHealthPoints = maxHealthPoints;
-        statManager.bulletDamage = bulletDamage;
-        statManager.fireRate = fireRate;
-        statManager.bulletSpread = bulletSpread;
-        statManager.walkSpeed = fpsController.m_WalkSpeed;
-        statManager.runSpeed = fpsController.m_RunSpeed;
-        statManager.jumpSpeed = fpsController.m_JumpSpeed;
+        try
+        {
+
+            statManager.currentHealthPoints = currentHealthPoints;
+            statManager.maxHealthPoints = maxHealthPoints;
+            statManager.bulletDamage = bulletDamage;
+            statManager.fireRate = fireRate;
+            statManager.bulletSpread = bulletSpread;
+            statManager.walkSpeed = fpsController.m_WalkSpeed;
+            statManager.runSpeed = fpsController.m_RunSpeed;
+            statManager.jumpSpeed = fpsController.m_JumpSpeed;
+        }  catch (System.Exception e)
+        {
+            Debug.LogWarning(e);
+        }
     }
 
     private void OnTriggerEnter(Collider collision)

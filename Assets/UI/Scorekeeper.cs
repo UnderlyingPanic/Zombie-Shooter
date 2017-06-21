@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Scorekeeper : MonoBehaviour {
-
+    [HideInInspector]
     public int timesDodged=0;
+    [HideInInspector]
     public int zombiesKilled =0;
     public Text killedText;
     public Text youKilledXZombies;
