@@ -43,6 +43,8 @@ public class StatManager : MonoBehaviour {
 
     public void KickOutStats ()
     {
+        player = FindObjectOfType<Player>();
+        print("Kicking out Stats to Player");
         player.maxHealthPoints = maxHealthPoints;
         player.currentHealthPoints = currentHealthPoints;
         player.bulletDamage = bulletDamage;
